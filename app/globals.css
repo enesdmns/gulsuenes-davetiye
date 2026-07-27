@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+/* ------------------ */
+/* Global */
+/* ------------------ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+
+  background: #f8f6f2;
+  color: #1b1b1b;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering: optimizeLegibility;
+}
+
+/* ------------------ */
+/* Reset */
+/* ------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+section {
+  position: relative;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+iframe {
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+  transition: all .3s ease;
+}
+
+/* ------------------ */
+/* Typography */
+/* ------------------ */
+
+h1,
+h2,
+h3 {
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+p {
+  line-height: 1.8;
+}
+
+/* ------------------ */
+/* Selection */
+/* ------------------ */
+
+::selection {
+  background: #d4af37;
+  color: white;
+}
+
+/* ------------------ */
+/* Scrollbar */
+/* ------------------ */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f1ec;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    #e4c766,
+    #d4af37
+  );
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c99d15;
+}
+
+/* Firefox */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d4af37 #f3f1ec;
+}
+
+/* ------------------ */
+/* Buttons */
+/* ------------------ */
+
+button {
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* ------------------ */
+/* Focus */
+/* ------------------ */
+
+:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 3px;
+}
+
+/* ------------------ */
+/* Smooth Images */
+/* ------------------ */
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* ------------------ */
+/* Prevent horizontal bounce */
+/* ------------------ */
+
+html,
+body {
+  max-width: 100%;
+}
+
+/* ------------------ */
+/* Mobile */
+/* ------------------ */
+
+@media (max-width: 640px) {
+
+  html {
+    font-size: 15px;
+  }
+
+}
