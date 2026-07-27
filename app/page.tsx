@@ -7,6 +7,7 @@ import Countdown from "../components/Countdown";
 import Invitation from "../components/Invitation";
 import Event from "../components/Event";
 import Map from "../components/Map";
+import Guestbook from "@/components/Guestbook";
 import Calendar from "../components/Calendar";
 
 import MusicPlayer from "../components/MusicPlayer";
@@ -27,6 +28,7 @@ export default function Home() {
       <Event />
       <Map />
       <Calendar />
+      <Guestbook />
     </>
   );
 }
