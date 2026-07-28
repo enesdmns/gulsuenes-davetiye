@@ -7,8 +7,9 @@ import Countdown from "../components/Countdown";
 import Invitation from "../components/Invitation";
 import Event from "../components/Event";
 import Map from "../components/Map";
-import Guestbook from "@/components/Guestbook";
 import Calendar from "../components/Calendar";
+import Guestbook from "@/components/Guestbook";
+import PhotoUpload from "../components/PhotoUpload";
 
 import MusicPlayer from "../components/MusicPlayer";
 import WelcomeScreen from "../components/WelcomeScreen";
@@ -28,6 +29,7 @@ export default function Home() {
       <Event />
       <Map />
       <Calendar />
+      <PhotoUpload />
       <Guestbook />
     </>
   );
