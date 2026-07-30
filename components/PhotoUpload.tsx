@@ -1,9 +1,83 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Camera, Sparkles, Heart } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import {
+  Camera,
+  Sparkles,
+  Heart,
+  Upload,
+  Loader2,
+  CheckCircle2,
+} from "lucide-react";
 
 export default function PhotoUpload() {
+  const [files, setFiles] = useState<File[]>([]);
+const [guestName, setGuestName] = useState("");
+const [loading, setLoading] = useState(false);
+const [progress, setProgress] = useState(0);
+const [success, setSuccess] = useState(false);
+
+const inputRef = useRef<HTMLInputElement>(null);
+
+const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (!e.target.files) return;
+
+  setFiles(Array.from(e.target.files));
+};
+
+const uploadFiles = async () => {
+  if (!files.length) {
+    alert("Lütfen dosya seçiniz.");
+    return;
+  }
+
+  if (!guestName.trim()) {
+    alert("Lütfen isminizi giriniz.");
+    return;
+  }
+
+  setLoading(true);
+  setProgress(0);
+
+  try {
+for (let i = 0; i < files.length; i++) {
+  const file = files[i];
+
+  const extension = file.name.split(".").pop();
+
+  const filePath = `${guestName.trim()}/${Date.now()}-${i}.${extension}`;
+
+  const { error } = await supabase.storage
+    .from("wedding-photos")
+    .upload(filePath, file);
+
+  if (error) {
+    throw error;
+  }
+
+  setProgress(Math.round(((i + 1) / files.length) * 100));
+}
+    setSuccess(true);
+    setFiles([]);
+    setGuestName("");
+setProgress(100);
+
+if (inputRef.current) {
+  inputRef.current.value = "";
+}
+} catch (err) {
+  console.error(err);
+
+  if (err instanceof Error) {
+    alert(err.message);
+  } else {
+    alert("Yükleme sırasında hata oluştu.");
+  }
+}
+  setLoading(false);
+};
   return (
     <section className="relative overflow-hidden bg-[#faf7f2] py-24 px-6">
 
@@ -41,33 +115,108 @@ export default function PhotoUpload() {
             albümümüzün bir parçası olacak. 🤍
           </p>
 
-          <div className="mt-12 flex justify-center">
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfTACtW74x2WhuDfAkERpexBOiHDtc0AYCdkInVqay8E521tA/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-gradient-to-r from-[#d4af37] to-[#b99033] px-10 py-5 text-lg font-semibold text-white shadow-xl transition duration-300 hover:scale-105"
-            >
-              <span className="absolute inset-0 -translate-x-full bg-white/20 transition duration-700 group-hover:translate-x-full"></span>
+<div className="mt-12">
 
-              <Camera
-                size={22}
-                className="relative transition group-hover:rotate-12"
-              />
+  <input
+    ref={inputRef}
+    type="file"
+    multiple
+    accept="image/*,video/*"
+    className="hidden"
+    onChange={handleSelect}
+  />
 
-              <span className="relative">
-                Fotoğraf & Video Yükle
-              </span>
-            </a>
-          </div>
+  <div
+    onClick={() => inputRef.current?.click()}
+    className="cursor-pointer rounded-3xl border-2 border-dashed border-[#d4af37] bg-[#fcfaf6] p-10 transition hover:bg-[#f8f3e8]"
+  >
+    <div className="flex flex-col items-center">
 
-          <div className="mt-10 flex items-center justify-center gap-2 text-[#b99033]">
-            <Heart size={18} fill="currentColor" />
-            <p className="text-sm">
-              Yükleme Google Form üzerinden güvenli şekilde gerçekleştirilecektir.
-            </p>
-          </div>
-        </div>
+      <Upload className="mb-4 h-12 w-12 text-[#c79b2b]" />
+
+      <h3 className="text-xl font-semibold text-[#4b3d2c]">
+        Dosyalarınızı Seçin
+      </h3>
+
+      <p className="mt-2 text-center text-[#7a6b58]">
+        Fotoğraf veya videolarınızı seçmek için buraya tıklayın.
+      </p>
+
+      {files.length > 0 && (
+        <p className="mt-5 rounded-full bg-[#d4af37]/10 px-5 py-2 text-sm font-medium text-[#9b7621]">
+          📸 {files.length} dosya seçildi
+        </p>
+      )}
+    </div>
+  </div>
+
+  <input
+    value={guestName}
+    onChange={(e) => setGuestName(e.target.value)}
+    placeholder="Adınız Soyadınız"
+    className="mt-8 w-full rounded-2xl border border-[#e5d8b8] bg-white px-5 py-4 text-center text-lg outline-none transition focus:border-[#d4af37]"
+  />
+
+  {loading && (
+    <div className="mt-8">
+
+      <div className="mb-2 flex justify-between text-sm text-[#8c774f]">
+        <span>Yükleniyor...</span>
+        <span>%{progress}</span>
+      </div>
+
+      <div className="h-3 overflow-hidden rounded-full bg-[#efe7d7]">
+
+        <div
+          style={{ width: `${progress}%` }}
+          className="h-full rounded-full bg-gradient-to-r from-[#d4af37] to-[#b99033] transition-all duration-500"
+        />
+
+      </div>
+
+    </div>
+  )}
+
+  {success && (
+    <div className="mt-8 flex items-center justify-center gap-2 rounded-2xl bg-green-50 p-5 text-green-700">
+
+      <CheckCircle2 />
+
+      <span>
+        Fotoğraflarınız başarıyla yüklendi.
+        Çok teşekkür ederiz. 🤍
+      </span>
+
+    </div>
+  )}
+
+  <button
+    onClick={uploadFiles}
+    disabled={loading}
+    className="mt-8 flex w-full items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#d4af37] to-[#b99033] px-8 py-5 text-lg font-semibold text-white shadow-xl transition hover:scale-[1.02] disabled:opacity-60"
+  >
+    {loading ? (
+      <>
+        <Loader2 className="h-5 w-5 animate-spin" />
+        Yükleniyor...
+      </>
+    ) : (
+      <>
+        <Upload className="h-5 w-5" />
+        Fotoğraf & Video Yükle
+      </>
+    )}
+  </button>
+
+</div>
+
+<div className="mt-10 flex items-center justify-center gap-2 text-[#b99033]">
+  <Heart size={18} fill="currentColor" />
+  <p className="text-sm text-center">
+    Fotoğraf ve videolarınız güvenli şekilde yalnızca Enes & Gülsu tarafından görüntülenecektir.
+  </p>
+</div>       
+ </div>
       </motion.div>
     </section>
   );
