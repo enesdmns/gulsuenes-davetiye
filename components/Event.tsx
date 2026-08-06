@@ -21,7 +21,7 @@ const items = [
   {
     icon: FaMapMarkerAlt,
     title: "Mekan",
-    value: "OMTEL Marin Bahçe",
+    value: "Omtel Hotel / Marina Bahçe",
   },
 ];
 

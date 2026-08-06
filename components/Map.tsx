@@ -23,7 +23,7 @@ export default function Map() {
           viewport={{ once: true }}
           className="mt-4 mb-4 text-center text-4xl font-light text-[#2B2B2B] sm:text-5xl md:mb-6 md:text-6xl"
         >
-          OMTEL Marin Bahçe
+          Omtel Hotel / Marina Bahçe
         </motion.h2>
 
         <motion.p

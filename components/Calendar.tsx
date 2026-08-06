@@ -93,7 +93,7 @@ export default function Calendar() {
               <div>
                 <p className="text-sm text-gray-500">Mekan</p>
                 <p className="font-medium text-[#2B2B2B]">
-                  OMTEL Marin Bahçe
+                  Omtel Hotel / Marina Bahçe
                 </p>
               </div>
             </div>
